@@ -16,3 +16,8 @@ Ketika client pertama mengirim pesan "hello from client 1", server menerima pesa
 ![Image 2.2.client](images/2_2_client.png)
 
 Perubahan komunikasi antara server dan client dilakukan dengan mengubah port dari 2000 menjadi 8080. Pada sisi server, perubahan ini diterapkan dengan menggunakan `TcpListener` untuk melakukan binding ke port 8080. Untuk memastikan komunikasi berjalan dengan baik, diperlukan penyesuaian yang sama pada sisi client dengan menggunakan protokol `WebSocket` yang harus merujuk ke port yang sama (8080) agar dapat berkomunikasi dengan server. Apabila port yang digunakan berbeda antara server dan client, maka client tidak akan dapat menemukan server dan program tidak dapat berjalan sebagaimana mestinya. Ketika port pada file server dan client tidak sinkron, akan terjadi error koneksi sehingga komunikasi tidak akan terjalin. Dengan menerapkan perubahan port yang konsisten pada kedua sisi (server dan client), koneksi tetap dapat berjalan dengan lancar.
+
+## 2.3: Small changes, add IP and Port
+![Image 2.3](images/2_3.png)
+
+Pada sisi client, saya mengubah perintah cetak menjadi `println!("Dea's Computer - From server: {}", text)` untuk menambahkan identifikasi perangkat penerima. Kemudian pada sisi server, saya menambahkan `bcast_tx.send(format!("{addr}: {text}"))?` agar server mencantumkan alamat IP dan port client pengirim dalam setiap pesan yang di-broadcast. Hasil modifikasi ini membuat setiap pesan yang diterima client menampilkan informasi lengkap berisi alamat IP dan port client pengirim dalam setiap pesan, serta isi pesan dari client. Perubahan ini memperjelas komunikasi karena memudahkan setiap client untuk mengidentifikasi pengirim pesan dalam percakapan. 
